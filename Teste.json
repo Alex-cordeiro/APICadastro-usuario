@@ -1,0 +1,31 @@
+{
+	{ 
+		"nome": "Marcos",
+		"data": "15-06-1997",
+		"email": "marcos@gmail.com",
+		"senha": "1234",
+		"sexo": "masculino",
+	},
+	
+	{
+        "nome": "Reginaldo",
+		"data": "08-04-1995",
+		"email": "reginaldo@hotmail.com",
+		"senha": "1234",
+		"sexo": "masculino",
+    },
+	{
+		"nome": "Guilhermina",
+		"data": "04-04-1960",
+		"email": "guilhermina@outlook.com",
+		"senha": "1234",
+		"sexo": "feminino",
+	},
+	{
+		"nome": "Izaura",
+		"data": "13-04-1975",
+		"email": "izaura@outlook.com",
+		"senha": "1234",
+		"sexo": "feminino",
+	}
+}

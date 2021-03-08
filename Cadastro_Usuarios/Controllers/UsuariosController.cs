@@ -11,7 +11,7 @@ using System.Text.Json;
 
 namespace Cadastro_Usuarios.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class UsuariosController : ControllerBase
     {
@@ -37,6 +37,7 @@ namespace Cadastro_Usuarios.Controllers
 
                 Usuario buscaUsuario = new Usuario(nome, ConverteStringParaBool(ativo));
 
+                
                 IEnumerable<Usuario> usuarioEncontrado = _context.Usuarios.Where(x => x.Ativo == buscaUsuario.Ativo).Where(x => x.Nome == buscaUsuario.Nome);
 
                
@@ -47,8 +48,6 @@ namespace Cadastro_Usuarios.Controllers
                 
                 foreach (Usuario user in usuarioEncontrado)
                 {
-                   
-
                     json = JsonSerializer.Serialize(usuarioEncontrado);
                 }
 
@@ -68,12 +67,13 @@ namespace Cadastro_Usuarios.Controllers
         [HttpPost]
         public async Task<ActionResult<Usuario>> PostUsuario(Usuario usuario)
         {
-           
-            Usuario Novousuario = new Usuario(usuario.Nome, usuario.Idade, usuario.Email, usuario.Senha, usuario.Sexo);
+            
+
+            Usuario Novousuario = new Usuario(usuario.Nome, usuario.Data, usuario.Email, usuario.Senha, usuario.Sexo);
             if ( usuario.Nome == null)
             {
                 return BadRequest(" Erro!!!: Nome inserido como nulo ou fora do limite de caracteres requerido");
-            } else if (usuario.Idade == null || usuario.Idade == 0)
+            } else if (usuario.Data == null)
             {
                 return BadRequest("Erro!!!: A idade foi definida como nula ou como zerada, insira uma idade válida!!");
             }

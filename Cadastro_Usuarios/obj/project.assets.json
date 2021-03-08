@@ -1739,7 +1739,7 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Runtime.Serialization.Json.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Runtime.Serialization.Json.dll": {}
@@ -7361,7 +7361,8 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.3",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.3",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.2",
-      "Swashbuckle.AspNetCore >= 6.1.0"
+      "Swashbuckle.AspNetCore >= 6.1.0",
+      "System.Runtime.Serialization.Json >= 4.3.0"
     ]
   },
   "packageFolders": {
@@ -7434,6 +7435,10 @@
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[6.1.0, )"
+          },
+          "System.Runtime.Serialization.Json": {
+            "target": "Package",
+            "version": "[4.3.0, )"
           }
         },
         "imports": [

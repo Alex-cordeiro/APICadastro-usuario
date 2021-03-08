@@ -17,19 +17,13 @@ namespace Cadastro_Usuarios.Models
        
         //Propriedades autoimplementadas
         public long Id { get;  set; }
-        public DateTime DataNascimento { get; private set; } 
-     
-        //public int Idade { get;  set; }
-     
-        public string Email { get;  set; }
-
-        
-        public string Senha { get;  set; }
-       
+        public string Data { get;  set; }
+        public string Email { get;   set; }
+        public string Senha { get;   set; }
         public string Sexo { get;  set; }
-       
-        public bool Ativo { get;  set; }
-
+        public bool Ativo { get;   set; }
+        public int Idade { get;  set; }
+        private DateTime DataNascimentoDate;
         //Construtores
         public Usuario()
         {
@@ -39,7 +33,8 @@ namespace Cadastro_Usuarios.Models
         public Usuario(string nome, string dataNascimento , string email, string senha, string sexo) 
         {
             Nome = nome;
-            DataNascimento = DateTime.Parse(dataNascimento); 
+            Data = dataNascimento;
+            Idade = calculaIdade(Data);
             Ativo = true;                      
             Email = email;
             Senha = senha;
@@ -76,7 +71,25 @@ namespace Cadastro_Usuarios.Models
 
         public (long, String) UsuarioCadastrado() => (Id, Nome);
         
+        public int calculaIdade( string dataNascimento)
+        {
+            
+             DataNascimentoDate = DateTime.Parse(dataNascimento);
 
+            if(DateTime.Now < DataNascimentoDate)
+            {
+                return Idade = 0;
+            }
+            else
+            {
+                Idade = DateTime.Now.Year - DataNascimentoDate.Year  ;
+                if(DateTime.Now.DayOfYear < DataNascimentoDate.DayOfYear)
+                {
+                    Idade = Idade - 1;
+                }
+                return Idade;
+            }
+        }
             
         
        
