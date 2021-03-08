@@ -1,2 +1,4 @@
 # APICadastro-usuario
-Api desenvolvida em Asp.NET Core e SQL server 
+Api desenvolvida em Asp.NET Core e entity framework core usando o banco de dados em memória
+
+
