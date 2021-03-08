@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Cadastro_Usuarios.DataContext;
 using Cadastro_Usuarios.Models;
+using System.Text.Json;
 
 namespace Cadastro_Usuarios.Controllers
 {
@@ -15,7 +16,7 @@ namespace Cadastro_Usuarios.Controllers
     public class UsuariosController : ControllerBase
     {
 
-        //private readonly UsuariosContext _context;
+        
         private UsuariosContext _context;
 
         public UsuariosController(UsuariosContext context)
@@ -25,69 +26,43 @@ namespace Cadastro_Usuarios.Controllers
 
          //GET: api/Usuarios
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
+        public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios(string nome, string ativo)
         {
-           
-           return await _context.Usuarios.ToListAsync();
-        }
-        
-       
-        // GET: api/Usuarios/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Usuario>> GetUsuario(long id)
-        {
-            var usuario = await _context.Usuarios.FindAsync(id);
-
-            if (usuario == null)
+           if(nome == null && ativo == null)
             {
-                return NotFound();
+                return Ok(await _context.Usuarios.ToListAsync());
             }
-
-            return usuario;
-        }
-
-        // PUT: api/Usuarios/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsuario(long id, Usuario usuario)
-        {
-            if (id != usuario.Id)
+            else
             {
-                return BadRequest();
-            }
 
-            _context.Entry(usuario).State = EntityState.Modified;
+                Usuario buscaUsuario = new Usuario(nome, ConverteStringParaBool(ativo));
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UsuarioExists(id))
+                IEnumerable<Usuario> usuarioEncontrado = _context.Usuarios.Where(x => x.Ativo == buscaUsuario.Ativo).Where(x => x.Nome == buscaUsuario.Nome);
+
+               
+                var json = "";
+
+                
+
+                
+                foreach (Usuario user in usuarioEncontrado)
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                   
 
-            return NoContent();
+                    json = JsonSerializer.Serialize(usuarioEncontrado);
+                }
+
+                if(json == "")
+                {
+                    return NotFound("Usuário não existe ou desativado");
+                }
+
+                return Ok("Registros encontrados: " + json);
+                
+            }
+           
         }
 
-        // POST: api/Usuarios
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        /*[HttpPost]
-        public async Task<ActionResult<Usuario>> PostUsuario(Usuario usuario)
-        {
-              _context.Usuarios.Add(usuario);
-              await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUsuario", new { id = usuario.Id }, usuario);
-           
-        }*/
 
         //POST: API/Usuarios
         [HttpPost]
@@ -121,29 +96,20 @@ namespace Cadastro_Usuarios.Controllers
                 _context.Usuarios.Add(Novousuario);
                 await _context.SaveChangesAsync();
                 return Ok("Id do novo usuário "+ Novousuario.Id);
-            }
-           
+            }       
         }
-
-        // DELETE: api/Usuarios/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUsuario(long id)
+        private bool ConverteStringParaBool(string ativo)
         {
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario == null)
+            bool usuarioAtivo = false;
+
+            if(ativo == "true")
             {
-                return NotFound();
+                return usuarioAtivo = true;
             }
-
-            _context.Usuarios.Remove(usuario);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool UsuarioExists(long id)
-        {
-            return _context.Usuarios.Any(e => e.Id == id);
+            else
+            {
+                return usuarioAtivo;
+            }
         }
     }
 }

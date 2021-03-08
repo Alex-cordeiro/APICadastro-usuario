@@ -1,25 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Cadastro_Usuarios.Models
 {
+    
     public class Usuario
     {
         //Atributos privados
         private string _nome;
         
         
-
+       
         //Propriedades autoimplementadas
         public long Id { get;  set; }
-        //public DateTime DataNascimento { get; private set; } verificar como atribuir data ao usuario
-        
-        public int Idade { get;  set; }
+        public DateTime DataNascimento { get; private set; } 
+     
+        //public int Idade { get;  set; }
+     
         public string Email { get;  set; }
+
+        
         public string Senha { get;  set; }
+       
         public string Sexo { get;  set; }
+       
         public bool Ativo { get;  set; }
 
         //Construtores
@@ -28,17 +36,26 @@ namespace Cadastro_Usuarios.Models
 
         }
 
-        public Usuario(string nome, int idade , string email, string senha, string sexo) 
+        public Usuario(string nome, string dataNascimento , string email, string senha, string sexo) 
         {
             Nome = nome;
-            //DataNascimento = dataNascimento; /*verificar como calcular a idade do usuario e depois incluir o parâmetro DateTime dataNascimento]
-            /*valor provisório :*/
-            Idade = idade;
+            DataNascimento = DateTime.Parse(dataNascimento); 
             Ativo = true;                      
             Email = email;
             Senha = senha;
             Sexo = sexo;
 
+        }
+
+        public Usuario(string nome, bool ativo)
+        {
+            Nome = nome;
+            Ativo = ativo;
+        }
+
+        public Usuario(Usuario usuario)
+        {
+            Nome = usuario.Nome;
         }
 
 
